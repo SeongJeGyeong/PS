@@ -1,12 +1,11 @@
 #include <string>
 #include <vector>
-#include <map>
 
 using namespace std;
 
 int solution(vector<int> players, int m, int k) {
     int answer = 0;
-    map<int, int> servers;
+    vector<int> servers(24);
     
     for(int i = 0; i < players.size(); ++i)
     {
@@ -14,7 +13,8 @@ int solution(vector<int> players, int m, int k) {
         {
             int sub = players[i] / m - servers[i];
             if(sub <= 0) continue;
-            for(int j = i; j < i + k; ++j)
+            int max = min(i + k, 24);
+            for(int j = i; j < max; ++j)
             {
                 servers[j] += sub;
             }
