@@ -1,23 +1,22 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 
 using namespace std;
 
 int solution(vector<string> want, vector<int> number, vector<string> discount) {
-    int answer = 0;
-    unordered_map<string, int> required;
-    for(int i = 0; i < want.size(); ++i)
-        required.emplace(want[i], number[i]);
-    
-    for(int i = 0; i < discount.size() - 9; ++i)
+   int answer=0;
+    map<string,int> m;
+    for(int i=0; i<9; i++) m[discount[i]]++;
+    for(int i=9; i<discount.size(); i++)
     {
-        unordered_map<string, int> cart;
-        for(int j = i; j < i+10; ++ j)
-            cart[discount[j]]++;
-        
-        if(required == cart) ++answer;
+        m[discount[i]]++;
+        bool flag=true;
+        for(int j=0; j<want.size(); j++)
+            if(m[want[j]]!=number[j])
+            { flag=false; break; }
+        if(flag==true) answer++;
+        m[discount[i-9]]--;
     }
-    
     return answer;
 }
